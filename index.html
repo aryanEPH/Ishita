@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Ishita</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+            font-family: 'Arial', sans-serif;
+            overflow: hidden; /* Prevents scrollbars when button moves */
+        }
+
+        .container {
+            text-align: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        h1 {
+            color: #ff4d4d;
+            font-size: 2.5rem;
+            margin-bottom: 40px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .btn-group {
+            position: relative;
+            height: 100px; /* Space for buttons to move */
+            width: 400px;
+            margin: 0 auto;
+        }
+
+        button {
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            border: none;
+            cursor: pointer;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            position: absolute; /* Allows free movement */
+            font-weight: bold;
+        }
+
+        /* YES BUTTON STYLING */
+        #yes-btn {
+            background-color: #ff4757;
+            color: white;
+            left: 20%;
+            top: 0;
+            transform: translateX(-50%);
+            z-index: 20;
+        }
+
+        /* Heart transformation on hover */
+        #yes-btn:hover {
+            transform: scale(2.5) translateX(-20%); /* Make it big */
+            background-color: #e84118;
+            border-radius: 0; /* Reset radius for heart shape construction */
+            width: 50px;
+            height: 50px;
+            padding: 0;
+            font-size: 0; /* Hide text momentarily to show heart shape */
+        }
+
+        /* Creating the heart shape using pseudo-elements */
+        #yes-btn:hover::before,
+        #yes-btn:hover::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            width: 50px;
+            height: 80px;
+            border-radius: 50px 50px 0 0;
+            background: #e84118;
+        }
+
+        #yes-btn:hover::before {
+            left: 50px;
+            transform: rotate(-45deg);
+            transform-origin: 0 100%;
+        }
+
+        #yes-btn:hover::after {
+            left: 0;
+            transform: rotate(45deg);
+            transform-origin: 100% 100%;
+        }
+        
+        /* Put text back on top of the heart */
+        #yes-btn:hover span {
+            display: block;
+            position: absolute;
+            top: 20px;
+            left: 25px;
+            font-size: 10px;
+            z-index: 30;
+            width: 50px;
+            text-align: center;
+        }
+
+        /* NO BUTTON STYLING */
+        #no-btn {
+            background-color: #2f3542;
+            color: white;
+            right: 20%;
+            top: 0;
+            transform: translateX(50%);
+        }
+
+        #hidden-message {
+            margin-top: 150px;
+            color: #ff6b81;
+            font-size: 1.5rem;
+            font-weight: bold;
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Ishita, will you be my Valentine?</h1>
+        
+        <div class="btn-group">
+            <button id="yes-btn"><span>Yes</span></button>
+            <button id="no-btn">No</button>
+        </div>
+
+        <p id="hidden-message">Oh you really want to press no...</p>
+    </div>
+
+    <script>
+        const noBtn = document.getElementById('no-btn');
+        const yesBtn = document.getElementById('yes-btn');
+        const hiddenMessage = document.getElementById('hidden-message');
+        
+        let isHardMode = false;
+        let zigzagInterval;
+        
+        // 1. Logic: After 10 seconds, activate Hard Mode
+        setTimeout(() => {
+            isHardMode = true;
+            hiddenMessage.style.opacity = '1'; // Show the text
+            
+            // Start the Zig Zag motion immediately
+            startZigZag();
+        }, 10000); // 10000ms = 10 seconds
+
+        // 2. Logic: The Evasion (Phase 1)
+        document.addEventListener('mousemove', (e) => {
+            // Only do the "move away on approach" if we are NOT in hard mode yet
+            if (isHardMode) return;
+
+            const x = e.clientX;
+            const y = e.clientY;
+            
+            const btnRect = noBtn.getBoundingClientRect();
+            const btnCenterX = btnRect.left + btnRect.width / 2;
+            const btnCenterY = btnRect.top + btnRect.height / 2;
+
+            // Calculate distance between cursor and button center
+            const distance = Math.sqrt(
+                Math.pow(x - btnCenterX, 2) + Math.pow(y - btnCenterY, 2)
+            );
+
+            // If cursor is within 150px (The "x" distance you requested)
+            if (distance < 150) {
+                moveButtonAway(x, y);
+            }
+        });
+
+        function moveButtonAway(mouseX, mouseY) {
+            // Calculate a new random position away from the cursor
+            // We verify the new spot isn't off-screen
+            const maxX = window.innerWidth - 100;
+            const maxY = window.innerHeight - 50;
+
+            const newX = Math.random() * maxX;
+            const newY = Math.random() * maxY;
+
+            noBtn.style.position = 'fixed'; // Switch to fixed to move freely on screen
+            noBtn.style.left = newX + 'px';
+            noBtn.style.top = newY + 'px';
+            noBtn.style.right = 'auto'; // Clear CSS positioning
+            noBtn.style.transform = 'none';
+        }
+
+        // 3. Logic: The Zig Zag (Phase 2)
+        function startZigZag() {
+            noBtn.style.position = 'fixed';
+            
+            // Move very fast (every 200ms)
+            zigzagInterval = setInterval(() => {
+                const maxX = window.innerWidth - 100;
+                const maxY = window.innerHeight - 50;
+
+                const randomX = Math.random() * maxX;
+                const randomY = Math.random() * maxY;
+
+                noBtn.style.transition = 'all 0.1s linear'; // Make animation very snappy
+                noBtn.style.left = randomX + 'px';
+                noBtn.style.top = randomY + 'px';
+            }, 200);
+        }
+
+        // 4. Logic: Yes Button Click
+        yesBtn.addEventListener('click', () => {
+            // Placeholder for your next step
+            alert("She said YES! (Redirect logic comes next)");
+        });
+
+    </script>
+</body>
+</html>
