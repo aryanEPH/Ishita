@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>For Ishita</title>
+    <title>A Question for Ishita</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Nunito:wght@400;700&display=swap" rel="stylesheet">
     <style>
+        /* --- CUTENESS OVERHAUL --- */
         body {
             margin: 0;
             padding: 0;
@@ -12,132 +14,201 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
-            font-family: 'Arial', sans-serif;
-            overflow: hidden; /* Prevents scrollbars when button moves */
+            /* Soft animated gradient background */
+            background: linear-gradient(45deg, #ff9a9e 0%, #fad0c4 99%, #fad0c4 100%);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            font-family: 'Nunito', sans-serif;
+            overflow: hidden;
         }
 
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Floating background bubbles for extra cuteness */
+        .bg-bubbles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+        .bg-bubbles li {
+            position: absolute;
+            list-style: none;
+            display: block;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.3);
+            bottom: -160px;
+            border-radius: 50%;
+            animation: bubbleFloat 25s infinite;
+            transition-timing-function: linear;
+        }
+        .bg-bubbles li:nth-child(1) { left: 10%; }
+        .bg-bubbles li:nth-child(2) { left: 20%; width: 80px; height: 80px; animation-delay: 2s; animation-duration: 17s; }
+        .bg-bubbles li:nth-child(3) { left: 25%; animation-delay: 4s; }
+        .bg-bubbles li:nth-child(4) { left: 40%; width: 60px; height: 60px; animation-duration: 22s; background-color: rgba(255, 255, 255, 0.25); }
+        .bg-bubbles li:nth-child(5) { left: 70%; }
+        
+        @keyframes bubbleFloat {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; border-radius: 50%; }
+            100% { transform: translateY(-1000px) rotate(720deg); opacity: 0; border-radius: 50%; }
+        }
+
+        /* --- MAIN CARD DESIGN --- */
         .container {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 50px;
+            border-radius: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
             text-align: center;
             position: relative;
             z-index: 10;
+            max-width: 90%;
         }
 
         h1 {
-            color: #ff4d4d;
-            font-size: 2.5rem;
-            margin-bottom: 40px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            color: #ff4757;
+            font-family: 'Fredoka', sans-serif; /* Cuter header font */
+            font-size: 2.8rem;
+            margin-bottom: 50px;
+            letter-spacing: 1px;
         }
 
         .btn-group {
             position: relative;
-            height: 100px; /* Space for buttons to move */
-            width: 400px;
-            margin: 0 auto;
+            height: 120px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
         }
 
         button {
-            padding: 15px 40px;
-            font-size: 1.2rem;
+            padding: 15px 50px;
+            font-size: 1.3rem;
             border: none;
             cursor: pointer;
             border-radius: 50px;
+            font-family: 'Nunito', sans-serif;
+            font-weight: 700;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
             transition: all 0.3s ease;
-            position: absolute; /* Allows free movement */
-            font-weight: bold;
+            position: relative;
         }
 
-        /* YES BUTTON STYLING */
+        /* --- IMPROVED HEART TRANSITION --- */
+        .yes-container {
+            position: relative;
+            width: 150px; /* Fixed width area for the button */
+            height: 60px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
         #yes-btn {
-            background-color: #ff4757;
+            background-color: #ff6b81;
             color: white;
-            left: 20%;
-            top: 0;
-            transform: translateX(-50%);
             z-index: 20;
-        }
-
-        /* Heart transformation on hover */
-        #yes-btn:hover {
-            transform: scale(2.5) translateX(-20%); /* Make it big */
-            background-color: #e84118;
-            border-radius: 0; /* Reset radius for heart shape construction */
-            width: 50px;
-            height: 50px;
-            padding: 0;
-            font-size: 0; /* Hide text momentarily to show heart shape */
-        }
-
-        /* Creating the heart shape using pseudo-elements */
-        #yes-btn:hover::before,
-        #yes-btn:hover::after {
-            content: "";
-            position: absolute;
-            top: 0;
-            width: 50px;
-            height: 80px;
-            border-radius: 50px 50px 0 0;
-            background: #e84118;
-        }
-
-        #yes-btn:hover::before {
-            left: 50px;
-            transform: rotate(-45deg);
-            transform-origin: 0 100%;
-        }
-
-        #yes-btn:hover::after {
-            left: 0;
-            transform: rotate(45deg);
-            transform-origin: 100% 100%;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Bouncy transition */
+            overflow: visible;
         }
         
-        /* Put text back on top of the heart */
-        #yes-btn:hover span {
+        /* The text inside the button */
+        #yes-btn span {
             display: block;
-            position: absolute;
-            top: 20px;
-            left: 25px;
-            font-size: 10px;
-            z-index: 30;
-            width: 50px;
-            text-align: center;
-            yesBtn.addEventListener('click', () => {window.location.href = "celebration.html"; });
-
+            transition: opacity 0.2s ease;
         }
 
-        /* NO BUTTON STYLING */
+        /* When hovering the container, transform the button */
+        .yes-container:hover #yes-btn {
+            width: 60px;
+            height: 60px;
+            padding: 0;
+            border-radius: 0; /* Become square temporarily */
+            transform: rotate(45deg) scale(1.5); /* Rotate and enlarge */
+            background-color: #ff4757;
+            box-shadow: 0 0 20px rgba(255, 71, 87, 0.6);
+        }
+        
+        /* Hide text instantly on hover */
+        .yes-container:hover #yes-btn span {
+            opacity: 0;
+        }
+
+        /* The circles that form the top of the heart */
+        #yes-btn::before,
+        #yes-btn::after {
+            content: "";
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            background-color: #ff4757;
+            border-radius: 50%;
+            opacity: 0; /* Hidden by default */
+            transition: opacity 0.1s ease;
+        }
+
+        #yes-btn::before { top: -30px; left: 0; }
+        #yes-btn::after { left: -30px; top: 0; }
+
+        /* Show the circles only on hover */
+        .yes-container:hover #yes-btn::before,
+        .yes-container:hover #yes-btn::after {
+            opacity: 1;
+        }
+
+
+        /* --- NO BUTTON STYLING --- */
         #no-btn {
-            background-color: #2f3542;
+            background-color: #a4b0be;
             color: white;
-            right: 20%;
-            top: 0;
-            transform: translateX(50%);
+            position: absolute; /* Essential for moving around */
+            right: 20px; /* Initial position */
+            transition: all 0.3s ease;
+        }
+
+        /* Style for when it's moving fast */
+        #no-btn.fast-move {
+             transition: all 0.05s linear !important;
         }
 
         #hidden-message {
-            margin-top: 150px;
-            color: #ff6b81;
-            font-size: 1.5rem;
-            font-weight: bold;
+            margin-top: 60px;
+            color: #ff4757;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.4rem;
             opacity: 0;
             transition: opacity 1s ease;
+            height: 30px; /* Reserve space */
         }
 
     </style>
 </head>
 <body>
 
+    <ul class="bg-bubbles">
+        <li></li><li></li><li></li><li></li><li></li>
+    </ul>
+
     <div class="container">
         <h1>Ishita, will you be my Valentine?</h1>
         
         <div class="btn-group">
-            <button id="yes-btn"><span>Yes</span></button>
+            <div class="yes-container">
+                <button id="yes-btn"><span>Yes!</span></button>
+            </div>
             <button id="no-btn">No</button>
         </div>
 
-        <p id="hidden-message">Oh you really want to press no...</p>
+        <p id="hidden-message">Oh, you really want to press no...</p>
     </div>
 
     <script>
@@ -148,16 +219,16 @@
         let isHardMode = false;
         let zigzagInterval;
         
-        // 1. Logic: After 10 seconds, activate Hard Mode
+        // --- PHASE 1: THE SETUP ---
+        // After 10 seconds, activate Hard Mode
         setTimeout(() => {
             isHardMode = true;
             hiddenMessage.style.opacity = '1'; // Show the text
-            
-            // Start the Zig Zag motion immediately
+            noBtn.classList.add('fast-move'); // Add CSS class for faster transition transitions
             startZigZag();
-        }, 10000); // 10000ms = 10 seconds
+        }, 10000); // 10 seconds
 
-        // 2. Logic: The Evasion (Phase 1)
+        // --- PHASE 2: THE EVASION (Before 10s) ---
         document.addEventListener('mousemove', (e) => {
             // Only do the "move away on approach" if we are NOT in hard mode yet
             if (isHardMode) return;
@@ -174,50 +245,47 @@
                 Math.pow(x - btnCenterX, 2) + Math.pow(y - btnCenterY, 2)
             );
 
-            // If cursor is within 150px (The "x" distance you requested)
-            if (distance < 150) {
-                moveButtonAway(x, y);
+            // Trigger distance (e.g., 120px)
+            if (distance < 120) {
+                moveButtonAway();
             }
         });
 
-        function moveButtonAway(mouseX, mouseY) {
-            // Calculate a new random position away from the cursor
-            // We verify the new spot isn't off-screen
-            const maxX = window.innerWidth - 100;
-            const maxY = window.innerHeight - 50;
+        function moveButtonAway() {
+            // Ensure button stays within viewable area
+            const maxX = window.innerWidth - noBtn.offsetWidth - 20;
+            const maxY = window.innerHeight - noBtn.offsetHeight - 20;
 
-            const newX = Math.random() * maxX;
-            const newY = Math.random() * maxY;
+            const newX = Math.max(20, Math.random() * maxX);
+            const newY = Math.max(20, Math.random() * maxY);
 
-            noBtn.style.position = 'fixed'; // Switch to fixed to move freely on screen
+            noBtn.style.position = 'fixed'; 
             noBtn.style.left = newX + 'px';
             noBtn.style.top = newY + 'px';
-            noBtn.style.right = 'auto'; // Clear CSS positioning
-            noBtn.style.transform = 'none';
+            noBtn.style.right = 'auto'; // Clear initial CSS positioning
         }
 
-        // 3. Logic: The Zig Zag (Phase 2)
+        // --- PHASE 3: THE ZIG ZAG (Hard Mode) ---
         function startZigZag() {
             noBtn.style.position = 'fixed';
             
-            // Move very fast (every 200ms)
+            // INCREASED MOVEMENT SPEED: 50ms interval (Very Fast)
             zigzagInterval = setInterval(() => {
-                const maxX = window.innerWidth - 100;
-                const maxY = window.innerHeight - 50;
+                const maxX = window.innerWidth - noBtn.offsetWidth - 20;
+                const maxY = window.innerHeight - noBtn.offsetHeight - 20;
 
-                const randomX = Math.random() * maxX;
-                const randomY = Math.random() * maxY;
+                const randomX = Math.max(20, Math.random() * maxX);
+                const randomY = Math.max(20, Math.random() * maxY);
 
-                noBtn.style.transition = 'all 0.1s linear'; // Make animation very snappy
                 noBtn.style.left = randomX + 'px';
                 noBtn.style.top = randomY + 'px';
-            }, 200);
+            }, 50); // <-- Changed from 200 to 50 for extreme speed
         }
 
-        // 4. Logic: Yes Button Click
+        // --- SUCCESS ---
         yesBtn.addEventListener('click', () => {
-            // Placeholder for your next step
-            alert("She said YES! (Redirect logic comes next)");
+            // Make sure you have celebration.html referenced here
+            window.location.href = "celebration.html"; 
         });
 
     </script>
